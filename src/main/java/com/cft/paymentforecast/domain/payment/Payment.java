@@ -14,4 +14,11 @@ public class Payment {
     private Currency currency;
     private Double amount;
 
+    public Payment(Date receivedOn, Date dueOn, Long dueOnEpoc, Currency currency, Double amount) {
+        this.receivedOn = receivedOn;
+        this.dueOn = dueOn;
+        this.dueOnEpoc = dueOnEpoc;
+        this.currency = currency;
+        this.amount = amount;
+    }
 }

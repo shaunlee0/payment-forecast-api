@@ -6,7 +6,7 @@ import com.cft.paymentforecast.domain.payment.Payment;
 import lombok.Data;
 
 @Data
-class PaymentForecastDataRecord {
+public class PaymentForecastDataRecord {
 
     private Merchant merchant;
     private Payer payer;

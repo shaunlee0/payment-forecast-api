@@ -1,7 +1,6 @@
 package com.cft.paymentforecast.controllers;
 
-import com.cft.paymentforecast.dto.APIResponse;
-import com.cft.paymentforecast.services.HealthService;
+import com.cft.paymentforecast.services.PaymentForecastService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,24 +8,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Log4j2
+@Log4j2(topic = "General")
 @Controller
-@RequestMapping("health")
-public class HealthController {
+@RequestMapping("payment-forecast")
+public class PaymentForecastController {
 
-    private final HealthService healthService;
+    private final PaymentForecastService paymentForecastService;
 
     @Autowired
-    public HealthController(HealthService healthService) {
-        this.healthService = healthService;
+    public PaymentForecastController(PaymentForecastService paymentForecastService) {
+        this.paymentForecastService = paymentForecastService;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public APIResponse testHealth() {
-
-        log.info("getting health!");
-        return healthService.getHealthResponse();
+    public void getPaymentForecast() {
+        paymentForecastService.getPaymentForecast();
     }
 
 }

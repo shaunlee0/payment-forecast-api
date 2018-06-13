@@ -19,12 +19,24 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
+        <RollingFile name="HashErrorsFileAppender" fileName="logs/parsing-exceptions.log"
+                     filePattern="logs/parsing-exceptions-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="General" level="info" additivity="false">
+        <Logger name="General" level="debug" additivity="false">
             <AppenderRef ref="GeneralFileAppender" />
         </Logger>
-
+        <Logger name="ParsingErrors" level="info" additivity="false">
+            <AppenderRef ref="HashErrorsFileAppender" />
+        </Logger>
         <Root level="info">
             <AppenderRef ref="ConsoleAppender" />
             <AppenderRef ref="GeneralFileAppender" />
