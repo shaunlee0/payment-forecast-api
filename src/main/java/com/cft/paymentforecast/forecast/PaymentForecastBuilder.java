@@ -1,4 +1,4 @@
-package com.cft.paymentforecast.services;
+package com.cft.paymentforecast.forecast;
 
 import com.cft.paymentforecast.domain.business.Merchant;
 import com.cft.paymentforecast.domain.consumer.Payer;
@@ -7,32 +7,35 @@ import com.cft.paymentforecast.domain.data.PaymentForecastDataRecord;
 import com.cft.paymentforecast.domain.forecast.PaymentForecast;
 import com.cft.paymentforecast.domain.forecast.PaymentForecastDay;
 import com.cft.paymentforecast.domain.payment.Payment;
+import com.cft.paymentforecast.services.DataExtractionService;
 import com.google.common.base.Charsets;
-import com.google.common.collect.*;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
 
 import static java.lang.String.valueOf;
 
-@Service
+@Component
 @Log4j2(topic = "ParsingErrors")
-public class PaymentForecastService {
+public class PaymentForecastBuilder {
 
     private static final String FORECAST_DATA_CSV_PATH = "/csv/payment-forecast-data.csv";
 
     private final DataExtractionService dataExtractionService;
 
     @Autowired
-    public PaymentForecastService(DataExtractionService dataExtractionService) {
+    public PaymentForecastBuilder(DataExtractionService dataExtractionService) {
         this.dataExtractionService = dataExtractionService;
     }
 
@@ -82,13 +85,9 @@ public class PaymentForecastService {
 
         for (PaymentForecastDataRecord paymentForecastDataRecord : paymentForecastData.getRecords()) {
             if (paymentForecastDataRecord != null) {
-                if (paymentForecastDataRecord.getPayment() != null) {
-                    if (paymentForecastDataRecord.getPayment().getDueOn() != null) {
-                        Date dueOn = paymentForecastDataRecord.getPayment().getDueOn();
-                        String key = getLabelForDayFromDate(dueOn);
-                        datesByDay.put(key, paymentForecastDataRecord);
-                    }
-                }
+                Date dueOn = paymentForecastDataRecord.getPayment().getDueOn();
+                String key = getLabelForDayFromDate(dueOn);
+                datesByDay.put(key, paymentForecastDataRecord);
             }
         }
 
@@ -103,6 +102,7 @@ public class PaymentForecastService {
             try {
                 Date date = new SimpleDateFormat("d/M/yyyy").parse(dateKey.split(" - ")[1]);
                 paymentForecastDay.setDay(date);
+                paymentForecastDay.setDayLabel(dateKey);
                 paymentForecastDay.setRecords(recordsByDay.get(dateKey));
             } catch (ParseException e) {
                 log.error("Failed to parse date {}", dateKey);
