@@ -25,7 +25,7 @@
                 <Pattern>${LOG_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
-                <SizeBasedTriggeringPolicy size="10MB" />
+                <SizeBasedTriggeringPolicy size="100MB" />
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>

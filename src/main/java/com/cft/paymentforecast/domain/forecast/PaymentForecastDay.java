@@ -1,6 +1,5 @@
 package com.cft.paymentforecast.domain.forecast;
 
-import com.cft.paymentforecast.domain.business.Merchant;
 import com.cft.paymentforecast.domain.data.PaymentForecastDataRecord;
 import lombok.Data;
 
@@ -13,6 +12,6 @@ public class PaymentForecastDay {
     private Date day;
     private List<PaymentForecastDataRecord> records;
     private String dayLabel;
-    private HashMap<Merchant,Double> merchantOwedForDay;
+    private HashMap<String,String> merchantOwedForDay;
 
 }

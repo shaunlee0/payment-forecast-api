@@ -38,12 +38,12 @@ public class DataExtractionService {
         }
         int row = 2;
         assert records != null;
+
         for (CSVRecord record : records) {
             PaymentForecastDataRecord paymentForecastDataRecord = getPaymentRecordForCsvRecord(record, row);
             paymentForecastData.getRecords().add(paymentForecastDataRecord);
             row++;
         }
-
 
         return paymentForecastData;
     }

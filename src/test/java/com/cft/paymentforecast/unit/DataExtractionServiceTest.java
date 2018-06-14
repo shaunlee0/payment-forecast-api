@@ -23,8 +23,6 @@ public class DataExtractionServiceTest {
     @InjectMocks
     private DataExtractionService dataExtractionService;
 
-    private static final String SUCCESS_MESSAGE = "success";
-
     @Test
     public void shouldExtractPaymentForecastData() {
 
@@ -33,8 +31,7 @@ public class DataExtractionServiceTest {
         MatcherAssert.assertThat(paymentForecastData,
                 Matchers.hasProperty("records"));
 
-        for (PaymentForecastDataRecord paymentForecastDataRecord : paymentForecastData.getRecords()) {
-            MatcherAssert.assertThat(paymentForecastDataRecord,
+            MatcherAssert.assertThat(paymentForecastData.getRecords().get(0),
                     Matchers.allOf(
                             Matchers.hasProperty("merchant"),
                             Matchers.hasProperty("payment"),
@@ -44,4 +41,4 @@ public class DataExtractionServiceTest {
         }
 
     }
-}
+

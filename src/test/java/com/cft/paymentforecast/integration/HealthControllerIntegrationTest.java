@@ -32,10 +32,8 @@ public class HealthControllerIntegrationTest {
     @Test
     public void shouldBeAbleToMakeHealthRequest() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/health")
+        mockMvc.perform(MockMvcRequestBuilders.get("/payment-forecast")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.message", is(notNullValue())))
-                .andExpect(jsonPath("$.message", is("success"))).andReturn();
-
+                .andExpect(jsonPath("$.days", is(notNullValue())));
     }
 }
